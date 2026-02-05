@@ -67,7 +67,7 @@ homeLink.addEventListener('click', (e) => {
 
 tasksLink.addEventListener('click', (e) => {
     e.preventDefault();
-    setActiveNavLink('tasks');
+    showTasksPage();
 });
 
 profileLink.addEventListener('click', (e) => {
@@ -96,6 +96,18 @@ function showProfilePage() {
     
     // Update navigation
     setActiveNavLink('profile');
+}
+
+// Show Tasks Page
+function showTasksPage() {
+    profileSection.classList.add('hidden');
+    dashboardSection.classList.remove('hidden');
+    
+    // Update navigation
+    setActiveNavLink('tasks');
+    
+    // Re-render tasks to ensure they're displayed
+    renderTasks();
 }
 
 // Set active navigation link
