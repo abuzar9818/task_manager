@@ -277,6 +277,7 @@ body.theme-black {
 .input-group textarea {
     resize: vertical;
     min-height: 120px;
+    padding: 14px 15px;
 }
 
 .btn {
@@ -446,6 +447,8 @@ body.theme-black {
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .task-card:hover {
@@ -465,12 +468,61 @@ body.theme-black {
     border-left-color: #27ae60;
 }
 
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.task-status-due-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+}
+
+.task-status-badge {
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    align-self: flex-start;
+}
+
+.task-deadline-badge {
+    font-size: 12px;
+    color: #777;
+    font-weight: 500;
+    background: #f8f9fa;
+    padding: 4px 8px;
+    border-radius: 12px;
+}
+
+.status-pending {
+    background: #fff3e0;
+    color: #f39c12;
+}
+
+.status-in-progress {
+    background: #e3f2fd;
+    color: #3498db;
+}
+
+.status-completed {
+    background: #e8f5e8;
+    color: #27ae60;
+}
+
 .task-card h3 {
     margin: 0 0 12px 0;
     color: #333;
     font-size: 1.3rem;
     font-weight: 600;
     line-height: 1.4;
+    flex-grow: 1;
 }
 
 .task-card p {
@@ -478,53 +530,26 @@ body.theme-black {
     margin: 0 0 18px 0;
     line-height: 1.6;
     font-size: 15px;
+    flex-grow: 1;
+    min-height: 60px;
+    padding: 8px 0;
 }
 
 .task-meta {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     flex-wrap: wrap;
     gap: 12px;
-    margin-bottom: 15px;
-}
-
-.task-status {
-    padding: 6px 15px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.status-pending {
-    background: #fff3e0;
-    color: #ff9800;
-}
-
-.status-in-progress {
-    background: #e3f2fd;
-    color: #2196f3;
-}
-
-.status-completed {
-    background: #e8f5e8;
-    color: #4caf50;
-}
-
-.task-deadline {
-    font-size: 14px;
-    color: #777;
-    font-weight: 500;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #f0f0f0;
 }
 
 .task-actions {
     display: flex;
     gap: 12px;
     margin-top: 15px;
-    padding-top: 15px;
-    border-top: 1px solid #f0f0f0;
 }
 
 .action-btn {

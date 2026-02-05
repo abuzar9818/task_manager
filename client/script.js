@@ -447,12 +447,14 @@ function createTaskElement(task) {
     }
 
     taskCard.innerHTML = `
-        <h3>${task.title}</h3>
-        <p>${task.description || 'No description provided.'}</p>
-        <div class="task-meta">
-            <span class="task-status status-${task.status.toLowerCase().replace(' ', '-')}">${task.status}</span>
-            <span class="task-deadline">Due: ${formattedDate}</span>
+        <div class="task-header">
+            <h3>${task.title}</h3>
+            <div class="task-status-due-container">
+                <span class="task-status-badge status-${task.status.toLowerCase().replace(' ', '-')}\">${task.status}</span>
+                <span class="task-deadline-badge">Due: ${formattedDate}</span>
+            </div>
         </div>
+        <p>${task.description || 'No description provided.'}</p>
         <div class="task-actions">
             ${actionButtons}
         </div>
