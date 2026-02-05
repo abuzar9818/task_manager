@@ -269,15 +269,24 @@ body.theme-black {
 .input-group textarea:focus,
 .input-group select:focus {
     outline: none;
-    border-color: #667eea;
-    background: white;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: #2c3e50;
+    box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
+    transition: all 0.3s ease;
 }
 
 .input-group textarea {
     resize: vertical;
     min-height: 120px;
     padding: 14px 15px;
+    transition: all 0.3s ease;
+    line-height: 1.5;
+}
+
+.input-group textarea:focus {
+    outline: none;
+    border-color: #2c3e50;
+    box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
+    transition: all 0.3s ease;
 }
 
 .btn {
@@ -533,23 +542,15 @@ body.theme-black {
     flex-grow: 1;
     min-height: 60px;
     padding: 8px 0;
-}
-
-.task-meta {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
 }
 
 .task-actions {
     display: flex;
     gap: 12px;
-    margin-top: 15px;
+    margin-top: 0;
 }
 
 .action-btn {

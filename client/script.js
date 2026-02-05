@@ -60,10 +60,7 @@ filterBtns.forEach(btn => {
 });
 
 // Navigation links
-homeLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    setActiveNavLink('home');
-});
+homeLink.style.display = 'none'; // Hide home link completely
 
 tasksLink.addEventListener('click', (e) => {
     e.preventDefault();
@@ -154,8 +151,7 @@ function updateNavigationForDashboard() {
     userInitial.style.display = 'flex';
     navUsername.style.display = 'inline';
     
-    // Hide home link in dashboard
-    homeLink.style.display = 'none';
+    // Home link is hidden completely now
 }
 
 // Color theme functionality
@@ -341,7 +337,7 @@ function handleLogout() {
     // Reset navigation bar
     navUsername.textContent = 'User';
     userInitial.textContent = 'U';
-    homeLink.style.display = 'block'; // Show home link again
+    // Home link remains hidden as it's completely removed from the UI
 }
 
 // Load Tasks
@@ -446,12 +442,16 @@ function createTaskElement(task) {
         `;
     }
 
+    // Conditionally show due date only if task is not completed
+    const dueDateElement = task.status === 'Completed' ? '' : 
+        `<span class="task-deadline-badge">Due: ${formattedDate}</span>`;
+
     taskCard.innerHTML = `
         <div class="task-header">
             <h3>${task.title}</h3>
             <div class="task-status-due-container">
                 <span class="task-status-badge status-${task.status.toLowerCase().replace(' ', '-')}\">${task.status}</span>
-                <span class="task-deadline-badge">Due: ${formattedDate}</span>
+                ${dueDateElement}
             </div>
         </div>
         <p>${task.description || 'No description provided.'}</p>
