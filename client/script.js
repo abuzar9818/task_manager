@@ -4,6 +4,7 @@ const API_BASE_URL = '/api';
 // DOM Elements
 const authSection = document.getElementById('auth-section');
 const dashboardSection = document.getElementById('dashboard-section');
+const profileSection = document.getElementById('profile-section');
 const loginForm = document.getElementById('login-form');
 const registerForm = document.getElementById('register-form');
 const showRegisterLink = document.getElementById('show-register');
@@ -11,6 +12,7 @@ const showLoginLink = document.getElementById('show-login');
 const loginContainer = document.getElementById('login-container');
 const registerContainer = document.getElementById('register-container');
 const usernameDisplay = document.getElementById('username-display');
+const backToTasksBtn = document.getElementById('back-to-tasks');
 const tasksList = document.getElementById('tasks-list');
 const addTaskBtn = document.getElementById('add-task-btn');
 const taskModal = document.getElementById('task-modal');
@@ -25,6 +27,7 @@ const profileLink = document.getElementById('profile-link');
 const colorToggle = document.getElementById('color-toggle');
 const logoutBtnNav = document.getElementById('logout-btn-nav');
 const authColorToggle = document.getElementById('auth-color-toggle');
+const navLinks = document.querySelector('.nav-links');
 
 let currentUser = null;
 let currentFilter = 'all';
@@ -70,7 +73,30 @@ tasksLink.addEventListener('click', (e) => {
 profileLink.addEventListener('click', (e) => {
     e.preventDefault();
     setActiveNavLink('profile');
+    showProfilePage();
 });
+
+// Show Profile Page
+function showProfilePage() {
+    dashboardSection.classList.add('hidden');
+    profileSection.classList.remove('hidden');
+    
+    // Update profile information
+    const email = localStorage.getItem('email') || 'Not available';
+    const username = email.split('@')[0];
+    
+    document.getElementById('profile-username').textContent = username;
+    document.getElementById('profile-email').textContent = email;
+    document.getElementById('profile-avatar').textContent = username.charAt(0).toUpperCase();
+    
+    // Update profile stats (placeholder values)
+    document.getElementById('member-since').textContent = 'January 2024';
+    document.getElementById('total-tasks').textContent = tasks.length;
+    document.getElementById('completed-tasks').textContent = tasks.filter(t => t.status === 'Completed').length;
+    
+    // Update navigation
+    setActiveNavLink('profile');
+}
 
 // Set active navigation link
 function setActiveNavLink(activePage) {
@@ -91,8 +117,28 @@ function setActiveNavLink(activePage) {
     }
 }
 
+// Update navigation based on user state
+function updateNavigationForAuth() {
+    // Hide navigation links during authentication
+    navLinks.style.display = 'none';
+    logoutBtnNav.style.display = 'none';
+    userInitial.style.display = 'none';
+    navUsername.style.display = 'none';
+}
+
+function updateNavigationForDashboard() {
+    // Show navigation links for dashboard
+    navLinks.style.display = 'flex';
+    logoutBtnNav.style.display = 'flex';
+    userInitial.style.display = 'flex';
+    navUsername.style.display = 'inline';
+    
+    // Hide home link in dashboard
+    homeLink.style.display = 'none';
+}
+
 // Color theme functionality
-let currentTheme = localStorage.getItem('theme') || 'blue';
+let currentTheme = localStorage.getItem('theme') || 'grey';
 
 function applyTheme(theme) {
     document.body.className = `theme-${theme}`;
@@ -101,7 +147,7 @@ function applyTheme(theme) {
 }
 
 function cycleTheme() {
-    const themes = ['blue', 'green', 'purple'];
+    const themes = ['grey', 'white', 'black'];
     const currentIndex = themes.indexOf(currentTheme);
     const nextIndex = (currentIndex + 1) % themes.length;
     applyTheme(themes[nextIndex]);
@@ -125,6 +171,13 @@ function initApp() {
     colorToggle.addEventListener('click', cycleTheme);
     authColorToggle.addEventListener('click', cycleTheme);
     logoutBtnNav.addEventListener('click', handleLogout);
+    if (backToTasksBtn) {
+        backToTasksBtn.addEventListener('click', () => {
+            profileSection.classList.add('hidden');
+            dashboardSection.classList.remove('hidden');
+            setActiveNavLink('tasks');
+        });
+    }
 }
 
 // Validate token and load dashboard
@@ -261,7 +314,7 @@ function handleLogout() {
     // Reset navigation bar
     navUsername.textContent = 'User';
     userInitial.textContent = 'U';
-    setActiveNavLink('home');
+    homeLink.style.display = 'block'; // Show home link again
 }
 
 // Load Tasks
@@ -518,6 +571,7 @@ function showAuthSection() {
     authSection.classList.remove('hidden');
     dashboardSection.classList.add('hidden');
     showLoginForm();
+    updateNavigationForAuth();
 }
 
 // Show Dashboard Section
@@ -535,6 +589,9 @@ function showDashboard() {
     if (username && username.length > 0) {
         userInitial.textContent = username.charAt(0).toUpperCase();
     }
+    
+    // Update navigation for dashboard
+    updateNavigationForDashboard();
     
     // Set active nav link to tasks
     setActiveNavLink('tasks');

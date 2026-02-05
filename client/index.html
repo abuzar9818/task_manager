@@ -92,7 +92,7 @@
                     <div class="tasks-section">
                         <div class="tasks-header">
                             <h2>Your Tasks</h2>
-                            <button id="add-task-btn" class="btn btn-primary"><i class="fas fa-plus"></i> Add Task</button>
+                            <button id="add-task-btn" class="btn btn-primary" style="background-color: #4a5f75;"><i class="fas fa-plus"></i> Add Task</button>
                         </div>
                         
                         <div class="filters">
@@ -107,6 +107,47 @@
                             <div class="empty-state">
                                 <i class="fas fa-tasks"></i>
                                 <p>No tasks yet. Add your first task!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile-section" class="section hidden">
+            <div class="dashboard-container">
+                <header class="dashboard-header">
+                    <div class="user-info">
+                        <h1>Profile</h1>
+                        <p>Manage your account settings</p>
+                    </div>
+                </header>
+
+                <div class="dashboard-content">
+                    <div class="profile-section">
+                        <div class="profile-card">
+                            <div class="profile-header">
+                                <div class="profile-avatar-large" id="profile-avatar">U</div>
+                                <h2 id="profile-username">Username</h2>
+                                <p id="profile-email">user@example.com</p>
+                            </div>
+                            <div class="profile-details">
+                                <div class="profile-info-item">
+                                    <label>Member Since</label>
+                                    <span id="member-since">January 2024</span>
+                                </div>
+                                <div class="profile-info-item">
+                                    <label>Total Tasks</label>
+                                    <span id="total-tasks">0</span>
+                                </div>
+                                <div class="profile-info-item">
+                                    <label>Completed Tasks</label>
+                                    <span id="completed-tasks">0</span>
+                                </div>
+                            </div>
+                            <div class="profile-actions">
+                                <button class="btn btn-secondary" id="back-to-tasks">Back to Tasks</button>
                             </div>
                         </div>
                     </div>

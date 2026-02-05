@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #2c3e50 0%, #4a6475 100%);
     min-height: 100vh;
     color: #333;
     background-attachment: fixed;
@@ -14,16 +14,16 @@ body {
 }
 
 /* Color themes */
-body.theme-blue {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+body.theme-grey {
+    background: linear-gradient(135deg, #2c3e50 0%, #4a6475 100%);
 }
 
-body.theme-green {
-    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+body.theme-white {
+    background: linear-gradient(135deg, #ecf0f1 0%, #bdc3c7 100%);
 }
 
-body.theme-purple {
-    background: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%);
+body.theme-black {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
 }
 
 .container {
@@ -47,7 +47,7 @@ body.theme-purple {
 .navbar {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
-    padding: 15px 20px;
+    padding: 15px 30px;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -60,35 +60,32 @@ body.theme-purple {
 .nav-logo {
     font-size: 1.8rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #2c3e50;
 }
 
 .nav-links {
     display: flex;
-    gap: 30px;
+    gap: 25px;
     align-items: center;
 }
 
 .nav-link {
     text-decoration: none;
-    color: #333;
+    color: #555;
     font-weight: 500;
     padding: 8px 15px;
-    border-radius: 20px;
+    border-radius: 6px;
     transition: all 0.3s ease;
     position: relative;
 }
 
 .nav-link:hover {
-    color: #667eea;
-    background: rgba(102, 126, 234, 0.1);
+    color: #2c3e50;
+    background: rgba(44, 62, 80, 0.1);
 }
 
 .nav-link.active {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #2c3e50;
     color: white;
 }
 
@@ -151,11 +148,11 @@ body.theme-purple {
 /* Authentication Styles */
 .auth-container {
     background: white;
-    border-radius: 15px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     width: 100%;
-    max-width: 450px;
+    max-width: 420px;
     position: relative;
 }
 
@@ -165,8 +162,8 @@ body.theme-purple {
     top: 0;
     left: 0;
     right: 0;
-    height: 5px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    height: 4px;
+    background: #2c3e50;
 }
 
 /* Floating Color Toggle for Auth Section */
@@ -282,36 +279,33 @@ body.theme-purple {
 
 .btn {
     width: 100%;
-    padding: 14px 20px;
+    padding: 12px 20px;
     border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 600;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 500;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #2c3e50;
     color: white;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
 .btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    background: #1a252f;
+    transform: translateY(-2px);
 }
 
 .btn-secondary {
-    background: transparent;
-    color: #667eea;
-    border: 2px solid #667eea;
+    background: #ecf0f1;
+    color: #2c3e50;
+    border: 1px solid #bdc3c7;
 }
 
 .btn-secondary:hover {
-    background: #667eea;
+    background: #2c3e50;
     color: white;
 }
 
@@ -347,15 +341,15 @@ body.theme-purple {
 /* Dashboard Styles */
 .dashboard-container {
     background: white;
-    border-radius: 15px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     width: 100%;
     min-height: 85vh;
 }
 
 .dashboard-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #5d87b0;
     color: white;
     padding: 30px 40px;
     display: flex;
@@ -370,8 +364,8 @@ body.theme-purple {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.2);
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .dashboard-header h1 {
@@ -443,40 +437,30 @@ body.theme-purple {
 
 .task-card {
     background: white;
-    border-radius: 12px;
+    border-radius: 10px;
     padding: 25px;
-    border-left: 5px solid #667eea;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-left: 4px solid #2c3e50;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
 }
 
-.task-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: rgba(0, 0, 0, 0.05);
-}
-
 .task-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 }
 
 .task-card.pending {
-    border-left-color: #ff9800;
+    border-left-color: #f39c12;
 }
 
 .task-card.in-progress {
-    border-left-color: #2196f3;
+    border-left-color: #3498db;
 }
 
 .task-card.completed {
-    border-left-color: #4caf50;
+    border-left-color: #27ae60;
 }
 
 .task-card h3 {
@@ -581,6 +565,84 @@ body.theme-purple {
     background: #fafafa;
     border-radius: 12px;
     margin-top: 20px;
+}
+
+/* Profile Section */
+.profile-section {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+.profile-card {
+    background: white;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 500px;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.profile-avatar-large {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #2c3e50;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    font-weight: bold;
+    margin: 0 auto 20px;
+}
+
+.profile-header h2 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+    font-size: 24px;
+}
+
+.profile-header p {
+    margin: 0;
+    color: #777;
+    font-size: 16px;
+}
+
+.profile-details {
+    margin-bottom: 30px;
+}
+
+.profile-info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.profile-info-item:last-child {
+    border-bottom: none;
+}
+
+.profile-info-item label {
+    font-weight: 500;
+    color: #555;
+}
+
+.profile-info-item span {
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.profile-actions {
+    text-align: center;
 }
 
 .empty-state i {
