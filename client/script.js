@@ -67,6 +67,12 @@ homeLink.addEventListener('click', (e) => {
 
 tasksLink.addEventListener('click', (e) => {
     e.preventDefault();
+    
+    // If profile section is visible, hide it
+    if (!profileSection.classList.contains('hidden')) {
+        profileSection.classList.add('hidden');
+    }
+    
     showTasksPage();
 });
 
@@ -89,8 +95,11 @@ function showProfilePage() {
     document.getElementById('profile-email').textContent = email;
     document.getElementById('profile-avatar').textContent = username.charAt(0).toUpperCase();
     
+    // Get member since date from localStorage or use current date if not set
+    const memberSince = localStorage.getItem('registrationDate') || new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+    document.getElementById('member-since').textContent = memberSince;
+    
     // Update profile stats (placeholder values)
-    document.getElementById('member-since').textContent = 'January 2024';
     document.getElementById('total-tasks').textContent = tasks.length;
     document.getElementById('completed-tasks').textContent = tasks.filter(t => t.status === 'Completed').length;
     
@@ -302,6 +311,12 @@ async function handleLoginAfterRegister(email, password) {
             if (data.user && data.user.email) {
                 localStorage.setItem('email', data.user.email);
             }
+            
+            // Store registration date if it doesn't exist
+            if (!localStorage.getItem('registrationDate')) {
+                localStorage.setItem('registrationDate', new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));
+            }
+            
             currentUser = { token: data.token };
             await loadTasks();
             showDashboard();

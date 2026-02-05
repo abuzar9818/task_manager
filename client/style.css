@@ -67,6 +67,7 @@ body.theme-black {
     display: flex;
     gap: 25px;
     align-items: center;
+    margin-left: auto;
 }
 
 .nav-link {
@@ -112,6 +113,7 @@ body.theme-black {
     display: flex;
     align-items: center;
     gap: 15px;
+    margin-left: 20px;
 }
 
 /* Color Toggle Button */
