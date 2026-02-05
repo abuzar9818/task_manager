@@ -26,7 +26,6 @@ const tasksLink = document.getElementById('tasks-link');
 const profileLink = document.getElementById('profile-link');
 const colorToggle = document.getElementById('color-toggle');
 const logoutBtnNav = document.getElementById('logout-btn-nav');
-const authColorToggle = document.getElementById('auth-color-toggle');
 const navLinks = document.querySelector('.nav-links');
 
 let currentUser = null;
@@ -86,11 +85,13 @@ function showProfilePage() {
     
     // Update profile information
     const email = localStorage.getItem('email') || 'Not available';
-    const username = email.split('@')[0];
+    // Get the actual username from localStorage if available, otherwise extract from email
+    const storedUsername = localStorage.getItem('username');
+    const displayUsername = storedUsername || email.split('@')[0];
     
-    document.getElementById('profile-username').textContent = username;
+    document.getElementById('profile-username').textContent = displayUsername;
     document.getElementById('profile-email').textContent = email;
-    document.getElementById('profile-avatar').textContent = username.charAt(0).toUpperCase();
+    document.getElementById('profile-avatar').textContent = displayUsername.charAt(0).toUpperCase();
     
     // Get member since date from localStorage or use current date if not set
     const memberSince = localStorage.getItem('registrationDate') || new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
@@ -186,7 +187,6 @@ function initApp() {
     
     // Add event listeners
     colorToggle.addEventListener('click', cycleTheme);
-    authColorToggle.addEventListener('click', cycleTheme);
     logoutBtnNav.addEventListener('click', handleLogout);
     if (backToTasksBtn) {
         backToTasksBtn.addEventListener('click', () => {
@@ -245,6 +245,10 @@ async function handleLogin(e) {
             if (data.user && data.user.email) {
                 localStorage.setItem('email', data.user.email);
             }
+            // Store username if available in response
+            if (data.user && data.user.username) {
+                localStorage.setItem('username', data.user.username);
+            }
             currentUser = { token: data.token };
             await loadTasks();
             showDashboard();
@@ -277,6 +281,9 @@ async function handleRegister(e) {
         const data = await response.json();
 
         if (response.ok) {
+            // Store username when registering
+            localStorage.setItem('username', username);
+            
             // Automatically login after successful registration
             await handleLoginAfterRegister(email, password);
         } else {
@@ -307,6 +314,10 @@ async function handleLoginAfterRegister(email, password) {
             if (data.user && data.user.email) {
                 localStorage.setItem('email', data.user.email);
             }
+            // Store username if available in response
+            if (data.user && data.user.username) {
+                localStorage.setItem('username', data.user.username);
+            }
             
             // Store registration date if it doesn't exist
             if (!localStorage.getItem('registrationDate')) {
@@ -330,6 +341,7 @@ async function handleLoginAfterRegister(email, password) {
 function handleLogout() {
     localStorage.removeItem('token');
     localStorage.removeItem('email');
+    localStorage.removeItem('username'); // Also remove stored username
     currentUser = null;
     tasks = [];
     showAuthSection();
@@ -608,15 +620,16 @@ function showDashboard() {
     authSection.classList.add('hidden');
     dashboardSection.classList.remove('hidden');
     
-    // Get username from email (or implement user profile endpoint)
+    // Get username from localStorage if available, otherwise extract from email
+    const storedUsername = localStorage.getItem('username');
     const email = localStorage.getItem('email') || 'User';
-    const username = email.split('@')[0];
-    usernameDisplay.textContent = username;
-    navUsername.textContent = username;
+    const displayUsername = storedUsername || email.split('@')[0];
+    usernameDisplay.textContent = displayUsername;
+    navUsername.textContent = displayUsername;
     
     // Set user initial for avatar
-    if (username && username.length > 0) {
-        userInitial.textContent = username.charAt(0).toUpperCase();
+    if (displayUsername && displayUsername.length > 0) {
+        userInitial.textContent = displayUsername.charAt(0).toUpperCase();
     }
     
     // Update navigation for dashboard
