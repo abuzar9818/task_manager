@@ -4,12 +4,11 @@ const auth = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-// CREATE TASK (for logged-in user only)
 router.post("/", auth, async (req, res) => {
     try {
         const { title, description, status, deadline } = req.body;
 
-        // Validation
+
         if (!title || !deadline) {
             return res.status(400).json({ 
                 message: "Title and deadline are required" 
@@ -19,7 +18,7 @@ router.post("/", auth, async (req, res) => {
         const task = new Task({
             title,
             description,
-            status: status || "Pending", // Default to Pending if not provided
+            status: status || "Pending", 
             deadline: new Date(deadline),
             userId: req.user.id
         });
@@ -32,7 +31,6 @@ router.post("/", auth, async (req, res) => {
     }
 });
 
-// GET ONLY USER TASKS
 router.get("/", auth, async (req, res) => {
     try {
         const tasks = await Task.find({ 
@@ -46,7 +44,6 @@ router.get("/", auth, async (req, res) => {
     }
 });
 
-// UPDATE ONLY IF TASK BELONGS TO USER
 router.put("/:id", auth, async (req, res) => {
     try {
         const { title, description, status, deadline } = req.body;
@@ -60,7 +57,6 @@ router.put("/:id", auth, async (req, res) => {
             return res.status(403).json({ message: "Not allowed to update this task" });
         }
 
-        // Update only provided fields
         if (title !== undefined) task.title = title;
         if (description !== undefined) task.description = description;
         if (status !== undefined) task.status = status;
@@ -74,7 +70,6 @@ router.put("/:id", auth, async (req, res) => {
     }
 });
 
-// DELETE ONLY IF TASK BELONGS TO USER
 router.delete("/:id", auth, async (req, res) => {
     try {
         const task = await Task.findOne({

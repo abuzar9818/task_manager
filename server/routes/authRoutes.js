@@ -5,12 +5,10 @@ const User = require("../models/User");
 
 const router = express.Router();
 
-// REGISTER
 router.post("/register", async (req, res) => {
     try {
         const { username, email, password } = req.body;
 
-        // Validation
         if (!username || !email || !password) {
             return res.status(400).json({ 
                 message: "Username, email, and password are required" 
@@ -23,7 +21,6 @@ router.post("/register", async (req, res) => {
             });
         }
 
-        // Check if user already exists
         const existingUser = await User.findOne({ 
             $or: [{ email }, { username }] 
         });
@@ -49,7 +46,6 @@ router.post("/register", async (req, res) => {
     }
 });
 
-// LOGIN
 router.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;

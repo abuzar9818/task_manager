@@ -5,7 +5,6 @@ module.exports = (req, res, next) => {
     
     if (!authHeader) return res.status(401).json({ message: "No token provided" });
     
-    // Extract token from "Bearer <token>" format
     const token = authHeader.startsWith('Bearer ') 
         ? authHeader.substring(7, authHeader.length) 
         : authHeader;

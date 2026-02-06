@@ -28,13 +28,13 @@ const taskSchema = new mongoose.Schema({
         required: true,
         validate: {
             validator: function(value) {
-                return value > Date.now(); // Deadline should be in the future
+                return value > Date.now(); 
             },
             message: 'Deadline must be in the future'
         }
     }
 }, {
-    timestamps: true // Automatically adds createdAt and updatedAt fields
+    timestamps: true
 });
 
 module.exports = mongoose.model("Task", taskSchema);

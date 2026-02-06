@@ -1,7 +1,5 @@
-// API base URL - since frontend is served from same server, we can use relative path
 const API_BASE_URL = 'https://task-manager-audc.onrender.com/api';
 
-// DOM Elements
 const authSection = document.getElementById('auth-section');
 const dashboardSection = document.getElementById('dashboard-section');
 const profileSection = document.getElementById('profile-section');
@@ -27,12 +25,13 @@ const profileLink = document.getElementById('profile-link');
 const colorToggle = document.getElementById('color-toggle');
 const logoutBtnNav = document.getElementById('logout-btn-nav');
 const navLinks = document.querySelector('.nav-links');
+const hamburgerMenu = document.getElementById('hamburger-menu');
 
 let currentUser = null;
 let currentFilter = 'all';
 let tasks = [];
 
-// Event Listeners
+
 document.addEventListener('DOMContentLoaded', initApp);
 
 loginForm.addEventListener('submit', handleLogin);
@@ -41,14 +40,14 @@ addTaskBtn.addEventListener('click', openAddTaskModal);
 closeModal.addEventListener('click', closeTaskModal);
 taskForm.addEventListener('submit', handleTaskSubmit);
 
-// Close modal when clicking outside
+
 window.addEventListener('click', (e) => {
     if (e.target === taskModal) {
         closeTaskModal();
     }
 });
 
-// Filter buttons
+
 filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         filterBtns.forEach(b => b.classList.remove('active'));
@@ -58,13 +57,13 @@ filterBtns.forEach(btn => {
     });
 });
 
-// Navigation links
-homeLink.style.display = 'none'; // Hide home link completely
+
+homeLink.style.display = 'none'; 
 
 tasksLink.addEventListener('click', (e) => {
     e.preventDefault();
     
-    // If profile section is visible, hide it
+    
     if (!profileSection.classList.contains('hidden')) {
         profileSection.classList.add('hidden');
     }
@@ -78,14 +77,12 @@ profileLink.addEventListener('click', (e) => {
     showProfilePage();
 });
 
-// Show Profile Page
 function showProfilePage() {
     dashboardSection.classList.add('hidden');
     profileSection.classList.remove('hidden');
     
-    // Update profile information
+
     const email = localStorage.getItem('email') || 'Not available';
-    // Get the actual username from localStorage if available, otherwise extract from email
     const storedUsername = localStorage.getItem('username');
     const displayUsername = storedUsername || email.split('@')[0];
     
@@ -93,31 +90,28 @@ function showProfilePage() {
     document.getElementById('profile-email').textContent = email;
     document.getElementById('profile-avatar').textContent = displayUsername.charAt(0).toUpperCase();
     
-    // Get member since date from localStorage or use current date if not set
+
     const memberSince = localStorage.getItem('registrationDate') || new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
     document.getElementById('member-since').textContent = memberSince;
     
-    // Update profile stats (placeholder values)
+
     document.getElementById('total-tasks').textContent = tasks.length;
     document.getElementById('completed-tasks').textContent = tasks.filter(t => t.status === 'Completed').length;
-    
-    // Update navigation
+
     setActiveNavLink('profile');
 }
 
-// Show Tasks Page
+
 function showTasksPage() {
     profileSection.classList.add('hidden');
     dashboardSection.classList.remove('hidden');
-    
-    // Update navigation
+
     setActiveNavLink('tasks');
     
-    // Re-render tasks to ensure they're displayed
     renderTasks();
 }
 
-// Set active navigation link
+
 function setActiveNavLink(activePage) {
     homeLink.classList.remove('active');
     tasksLink.classList.remove('active');
@@ -136,9 +130,9 @@ function setActiveNavLink(activePage) {
     }
 }
 
-// Update navigation based on user state
+
 function updateNavigationForAuth() {
-    // Hide navigation links during authentication
+
     navLinks.style.display = 'none';
     logoutBtnNav.style.display = 'none';
     userInitial.style.display = 'none';
@@ -146,16 +140,15 @@ function updateNavigationForAuth() {
 }
 
 function updateNavigationForDashboard() {
-    // Show navigation links for dashboard
+
     navLinks.style.display = 'flex';
     logoutBtnNav.style.display = 'flex';
     userInitial.style.display = 'flex';
     navUsername.style.display = 'inline';
     
-    // Home link is hidden completely now
 }
 
-// Color theme functionality
+
 let currentTheme = localStorage.getItem('theme') || 'grey';
 
 function applyTheme(theme) {
@@ -171,21 +164,21 @@ function cycleTheme() {
     applyTheme(themes[nextIndex]);
 }
 
-// Initialize App
+
 function initApp() {
-    // Apply saved theme
+
     applyTheme(currentTheme);
     
-    // Check if user is already logged in
+
     const token = localStorage.getItem('token');
     if (token) {
-        // Validate token and load dashboard
+
         validateToken(token);
     } else {
         showAuthSection();
     }
     
-    // Add event listeners
+
     colorToggle.addEventListener('click', cycleTheme);
     logoutBtnNav.addEventListener('click', handleLogout);
     if (backToTasksBtn) {
@@ -195,9 +188,26 @@ function initApp() {
             setActiveNavLink('tasks');
         });
     }
+    
+
+    if (hamburgerMenu) {
+        hamburgerMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            
+            hamburgerMenu.classList.toggle('active');
+        });
+    }
+    
+    const navLinksElements = document.querySelectorAll('.nav-link');
+    navLinksElements.forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            hamburgerMenu.classList.remove('active');
+        });
+    });
 }
 
-// Validate token and load dashboard
+
 async function validateToken(token) {
     try {
         const response = await fetch(`${API_BASE_URL}/tasks`, {
@@ -221,7 +231,6 @@ async function validateToken(token) {
     }
 }
 
-// Handle Login
 async function handleLogin(e) {
     e.preventDefault();
     
@@ -241,11 +250,10 @@ async function handleLogin(e) {
 
         if (response.ok) {
             localStorage.setItem('token', data.token);
-            // Store user email for display purposes
             if (data.user && data.user.email) {
                 localStorage.setItem('email', data.user.email);
             }
-            // Store username if available in response
+
             if (data.user && data.user.username) {
                 localStorage.setItem('username', data.user.username);
             }
@@ -261,7 +269,7 @@ async function handleLogin(e) {
     }
 }
 
-// Handle Registration
+
 async function handleRegister(e) {
     e.preventDefault();
     
@@ -281,10 +289,9 @@ async function handleRegister(e) {
         const data = await response.json();
 
         if (response.ok) {
-            // Store username when registering
+
             localStorage.setItem('username', username);
             
-            // Automatically login after successful registration
             await handleLoginAfterRegister(email, password);
         } else {
             alert(data.message || 'Registration failed');
@@ -295,7 +302,6 @@ async function handleRegister(e) {
     }
 }
 
-// Helper function to login after registration
 async function handleLoginAfterRegister(email, password) {
     try {
         const response = await fetch(`${API_BASE_URL}/auth/login`, {
@@ -310,16 +316,12 @@ async function handleLoginAfterRegister(email, password) {
 
         if (response.ok) {
             localStorage.setItem('token', data.token);
-            // Store user email for display purposes
             if (data.user && data.user.email) {
                 localStorage.setItem('email', data.user.email);
             }
-            // Store username if available in response
             if (data.user && data.user.username) {
                 localStorage.setItem('username', data.user.username);
             }
-            
-            // Store registration date if it doesn't exist
             if (!localStorage.getItem('registrationDate')) {
                 localStorage.setItem('registrationDate', new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));
             }
@@ -337,7 +339,6 @@ async function handleLoginAfterRegister(email, password) {
     }
 }
 
-// Handle Logout
 function handleLogout() {
     localStorage.removeItem('token');
     localStorage.removeItem('email');
@@ -346,13 +347,10 @@ function handleLogout() {
     tasks = [];
     showAuthSection();
     
-    // Reset navigation bar
     navUsername.textContent = 'User';
     userInitial.textContent = 'U';
-    // Home link remains hidden as it's completely removed from the UI
 }
 
-// Load Tasks
 async function loadTasks() {
     if (!currentUser?.token) return;
 
@@ -374,7 +372,6 @@ async function loadTasks() {
     }
 }
 
-// Render Tasks based on filter
 function renderTasks() {
     tasksList.innerHTML = '';
 
@@ -408,12 +405,10 @@ function renderTasks() {
     });
 }
 
-// Create Task Element
 function createTaskElement(task) {
     const taskCard = document.createElement('div');
     taskCard.className = `task-card ${task.status.toLowerCase().replace(' ', '-')}`;
     
-    // Format deadline date
     const deadlineDate = new Date(task.deadline);
     const formattedDate = deadlineDate.toLocaleDateString('en-US', {
         year: 'numeric',
@@ -421,17 +416,14 @@ function createTaskElement(task) {
         day: 'numeric'
     });
 
-    // Create action buttons based on status
     let actionButtons = '';
     if (task.status === 'Completed') {
-        // For completed tasks, only show delete button
         actionButtons = `
             <button class="action-btn delete-btn" onclick="deleteTask('${task._id}')">
                 <i class="fas fa-trash"></i> Delete
             </button>
         `;
     } else {
-        // For pending/in-progress tasks, show edit and status progression buttons
         let statusButton = '';
         if (task.status === 'Pending') {
             statusButton = `<button class="action-btn edit-btn" onclick="progressTask('${task._id}', 'In Progress')">
@@ -454,7 +446,6 @@ function createTaskElement(task) {
         `;
     }
 
-    // Conditionally show due date only if task is not completed
     const dueDateElement = task.status === 'Completed' ? '' : 
         `<span class="task-deadline-badge">Due: ${formattedDate}</span>`;
 
@@ -475,7 +466,6 @@ function createTaskElement(task) {
     return taskCard;
 }
 
-// Open Add Task Modal
 function openAddTaskModal() {
     document.getElementById('modal-title').textContent = 'Add New Task';
     taskForm.reset();
@@ -483,7 +473,6 @@ function openAddTaskModal() {
     taskModal.style.display = 'block';
 }
 
-// Open Edit Task Modal
 function openEditTaskModal(taskId) {
     const task = tasks.find(t => t._id === taskId);
     if (!task) return;
@@ -497,13 +486,11 @@ function openEditTaskModal(taskId) {
     taskModal.style.display = 'block';
 }
 
-// Close Task Modal
 function closeTaskModal() {
     taskModal.style.display = 'none';
     taskForm.reset();
 }
 
-// Handle Task Submit (Add/Edit)
 async function handleTaskSubmit(e) {
     e.preventDefault();
     
@@ -523,7 +510,6 @@ async function handleTaskSubmit(e) {
     try {
         let response;
         if (taskId) {
-            // Update existing task
             response = await fetch(`${API_BASE_URL}/tasks/${taskId}`, {
                 method: 'PUT',
                 headers: {
@@ -533,7 +519,6 @@ async function handleTaskSubmit(e) {
                 body: JSON.stringify(taskData)
             });
         } else {
-            // Create new task
             response = await fetch(`${API_BASE_URL}/tasks`, {
                 method: 'POST',
                 headers: {
@@ -557,7 +542,6 @@ async function handleTaskSubmit(e) {
     }
 }
 
-// Progress Task to next status
 async function progressTask(taskId, newStatus) {
     try {
         const response = await fetch(`${API_BASE_URL}/tasks/${taskId}`, {
@@ -581,7 +565,6 @@ async function progressTask(taskId, newStatus) {
     }
 }
 
-// Delete Task
 async function deleteTask(taskId) {
     if (!confirm('Are you sure you want to delete this task?')) {
         return;
@@ -606,60 +589,48 @@ async function deleteTask(taskId) {
         alert('An error occurred while deleting the task');
     }
 }
-
-// Show Authentication Section
 function showAuthSection() {
     authSection.classList.remove('hidden');
     dashboardSection.classList.add('hidden');
     showLoginForm();
     updateNavigationForAuth();
 }
-
-// Show Dashboard Section
 function showDashboard() {
     authSection.classList.add('hidden');
     dashboardSection.classList.remove('hidden');
     
-    // Get username from localStorage if available, otherwise extract from email
     const storedUsername = localStorage.getItem('username');
     const email = localStorage.getItem('email') || 'User';
     const displayUsername = storedUsername || email.split('@')[0];
     usernameDisplay.textContent = displayUsername;
     navUsername.textContent = displayUsername;
     
-    // Set user initial for avatar
     if (displayUsername && displayUsername.length > 0) {
         userInitial.textContent = displayUsername.charAt(0).toUpperCase();
     }
     
-    // Update navigation for dashboard
     updateNavigationForDashboard();
     
-    // Set active nav link to tasks
     setActiveNavLink('tasks');
 }
 
-// Show Login Form
 function showLoginForm() {
     loginContainer.classList.add('active');
     registerContainer.classList.remove('active');
     
-    // Clear forms
     loginForm.reset();
     registerForm.reset();
 }
 
-// Show Register Form
+
 function showRegisterForm() {
     registerContainer.classList.add('active');
     loginContainer.classList.remove('active');
     
-    // Clear forms
     loginForm.reset();
     registerForm.reset();
 }
 
-// Toggle between login and register forms
 showRegisterLink.addEventListener('click', (e) => {
     e.preventDefault();
     showRegisterForm();

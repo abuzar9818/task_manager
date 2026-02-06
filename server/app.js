@@ -2,46 +2,45 @@ require("dotenv").config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const connectDB = require('./config/db'); // Import database connection from config
+const connectDB = require('./config/db'); 
 const app = express();
 
-// Serve static files from the client directory
 app.use(express.static(path.join(__dirname, '../client')));
 
-// Middleware
+
 app.use(cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:3000', // Allow your frontend origin
+    origin: process.env.CLIENT_URL || 'http://localhost:3000', 
     credentials: true
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Routes
+
 const authRoutes = require("./routes/authRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
 
-// Serve the main HTML file for the frontend
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 
-// Basic API route for testing
+
 app.get('/api', (req, res) => {
     res.json({ message: "Task Management API is running!" });
 });
 
 
 
-// Error handling middleware
+
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ message: 'Something went wrong!' });
 });
 
-// 404 handler
+
 app.use('*', (req, res) => {
     res.status(404).json({ message: 'Route not found' });
 });
