@@ -1,5 +1,5 @@
 // API base URL - since frontend is served from same server, we can use relative path
-const API_BASE_URL = 'https://task-manager-audc.onrender.com//api';
+const API_BASE_URL = 'https://task-manager-audc.onrender.com/api';
 
 // DOM Elements
 const authSection = document.getElementById('auth-section');
